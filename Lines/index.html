@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>Lines</title>
+	<link rel="stylesheet" type="text/css" href="materialize.min.css">
+	<link rel="stylesheet" type="text/css" href="Style.css">
+</head>
+<body class="grey darken-3 grey-text text-lighten-2">
+	<div class="fixed-action-btn" style="top: 15px; left: 24px; width: 50px; height: 50px;">
+		<a class="btn-floating btn-large teal waves-effect waves-orange" href="../index.html">
+			<i class="large mdi-action-home"></i>
+		</a>
+	</div>
+	
+	
+	
+	<div id="all-container" class="valign-wrapper grey darken-4 z-depth-2">
+		<div class="container valign">
+			<div class="row">
+				<h3 class="col s12 thin">Demo: Structured Lines</h3>
+			</div>
+			<div class="row">
+				<div id="drawing"></div>
+				<input id="color-slider" type="range" min="0" max="360" value="0" />
+				<div class="col s3">Move Slider to change Color</div>
+				<a class="waves-effect waves-orange btn-large col s4 teal" onclick="startLines();">Start Demo</a>
+			</div>
+		</div>
+	</div>
+<!--	<canvas id="test-canvas"></canvas>-->
+	<audio id="sound" src="JS/StruckturedLines.mp3"></audio>
+	
+	<!-- JavaScript -->
+	
+	<!--Style-->
+	<script type="text/javascript" src="JS/ext/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript" src="JS/ext/materialize.min.js"></script>
+	
+	<!-- ext -->
+	<script type="text/javascript" src="JS/ext/three.js"></script>
+
+	<script type="text/javascript" src="JS/ext/CopyShader.js"></script>
+	<script type="text/javascript" src="JS/ext/EffectComposer.js"></script>
+	<script type="text/javascript" src="JS/ext/RenderPass.js"></script>
+	<script type="text/javascript" src="JS/ext/MaskPass.js"></script>
+	<script type="text/javascript" src="JS/ext/ShaderPass.js"></script>
+	
+	<script type="text/javascript" src="JS/ext/stats.min.js"></script>
+	<script type="text/javascript" src="JS/ext/perlin.js"></script>
+	
+	<script type="text/javascript" src="JS/AudioInterface.js"></script>
+
+	<!-- my -->
+	<script type="text/javascript" src="JS/shortcuts.js"></script>
+	<script type="text/javascript" src="JS/fsq.js"></script>
+	<script type="text/javascript" src="JS/lineShaders.js"></script>
+
+	<script type="text/javascript" src="JS/lineThread/LineMesh.js"></script>
+	
+	<script type="text/javascript" src="JS/particleThread/particleMesh.js"></script>
+
+	<script type="text/javascript" src="JS/EffectFactory.js"></script>
+	<script type="text/javascript" src="JS/Program.js"></script>
+	<script type="text/javascript" src="JS/Camera.js"></script>
+	<script type="text/javascript" src="JS/chorio.js"></script>
+<!--	<script type="text/javascript" src="JS/testChorio.js"></script>-->
+	
+	<script type="text/javascript" src="JS/LimeredLinesMain.js"></script>
+</body>
+</html>

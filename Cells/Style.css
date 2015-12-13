@@ -1,0 +1,35 @@
+body{
+	background-color: white;
+}
+
+#drawing{
+	width:1024px;
+}
+
+.hidden{
+	display:none;
+}
+#color-slider{
+	width: 1024px;
+}
+
+#blend {
+	display:none;
+}
+
+#source {
+	display:none;
+}
+
+#webcam {
+	display:none;
+}
+
+#time {
+	position: absolute;
+	top: 0;
+	left: 1100px;
+	
+	color:white;
+	font-size: 25px;
+}

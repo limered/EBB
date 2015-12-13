@@ -1,0 +1,182 @@
+﻿<html>
+	<head>
+		<title>EBB Abgabe</title>
+		
+		<link rel="stylesheet" type="text/css" href="css/materialize.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+	</head>
+	<body onscroll="scroll();" class="black">
+		<nav id="navigation" class="transparent">
+			<div class="container">
+				<ul class="right">
+					<li><a href="#slideshow">Start</a></li>
+					<li><a href="#lines-image">Structured Lines</a></li>
+					<li><a href="#cells-image">Zellhaufen</a></li>
+					<li><a href="#me-image">Zusatzarbeiten</a></li>
+				</ul>
+			</div>
+		</nav>
+		
+		<div id="slideshow" class="black">
+			<div class="slider">
+				<ul class="slides">
+					<li><img src="images/IMG_2630.JPG"></li>
+					<li><img src="images/IMG_2619.JPG"></li>
+					<li><img src="images/IMG_2622.JPG"></li>
+					<li><img src="images/IMG_2628.JPG"></li>
+					<li><img src="images/IMG_2631.JPG"></li>
+					<li><img src="images/IMG_2428.JPG"></li>
+				</ul>
+			</div>
+		</div>
+
+		
+		<div id="about-section" class="section blue-grey lighten-3">
+			<div class="container">
+				<div class="section">
+					<div class="row">
+						<div class="col s12">
+							<h1 class="thin">Ornament im Raum</h1>
+							<p class="flow-text">Das Projekt "Ornament im Raum" entstand als Zusammenarbeit zwischen dem Kunstbereich der <a target="blank" href="http://www.uni-koblenz-landau.de/de/koblenz/">Universität Koblenz</a> und dem <a target="blank" href="http://www.b-05.org/">b-05 Kunst- und Kulturzentrum</a> in Montabaur unter der Leitung von Dr. Markus Lohoff. </p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s6">
+							<p>Das Ziel war es Demoprogramme zu erstellen, die Formsprache und Eigenschaften von Ornamenten verwenden und diese in ein digitales Zeitalter transferieren. Als Zusatzanforderung sollte Randomisierung verwendet werden um Abwechslung zu schaffen. Grundsätzlich wurde Java als Programmiersprache zusammen mit dem Processing Framework verwendet.</p>
+						</div>
+						<div class="col s6">
+							<p>Mein Beitrag bestand aus zwei Programmen, die auf dieser Seite vogestellt werden. Meine Demos sind hier in Orginalform als Video zu sehen. Die hier verlinkten Echtzeitdemos sind unter verwendung von WebGL und HTML5 entstanden. Fürs Rendering wurde THREE.js verwendet. Daneben wurden die Demos auf Abspielen in Chrome optimiert, sollten aber auch ohne Probleme im Firefox funktioniern.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="lines-image" class="parallax-container">
+			<div class="parallax">
+				<img class="responsive-img" src="images/lines_logo.jpg">
+			</div>
+		</div>
+		
+		<div id="lines-section" class="section teal lighten-4">
+			<div class="container">
+				<div class="section">
+					<div id="lines-spinner" class="progress transparent hidden opacity-animated-1000">
+						<div class="indeterminate teal lighten-1"></div>
+					</div>
+					<div class="row">
+						<div class="col s12">
+							<h3 class="thin">Demo: Structured Lines</h3>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s3">
+							<h5 class="light">Idee:</h5>
+							<p>Bilder sich schneidender Linien... <a href="#lines-section" onclick="getLinesIdea();">mehr</a></p>
+							<div class="divider"></div>
+							<h5 class="light">Video:</h5>
+							<p>Aufgenommen und neu Vertont... <a href="#lines-section" onclick="getLinesVideo();">starten</a></p>
+							<div class="divider"></div>
+							<h5 class="light">Echtzeitdemo:</h5>
+							<p>Verwendet HTML5 und WebGL... <a href="Lines/index.html">öffnen</a></p>
+						</div>
+						<div class="col s9">
+							<div id="line-content-container">
+								<div id="lines-content" class="content-container hidden"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="cells-image" class="parallax-container">
+			<div class="parallax">
+				<img class="responsive-img" src="images/cells.jpg">
+			</div>
+		</div>
+		
+		<div id="cells-section" class="section brown lighten-4">
+			<div class="container">
+				<div class="section">
+					<div id="cells-spinner" class="progress transparent hidden opacity-animated-1000">
+						<div class="indeterminate brown lighten-1"></div>
+					</div>
+					<div class="row">
+						<div class="col s12">
+							<h3 class="thin">Demo: Zellenhaufen</h3>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s3">
+							<h5 class="light">Idee:</h5>
+							<p>Besucher und Zellen interaktion... <a href="#cells-section" onclick="getCellsIdea();">mehr</a></p>
+							<div class="divider"></div>
+							<h5 class="light">Video:</h5>
+							<p>Aufgenommen und neu Vertont... <a href="#cells-section" onclick="getCellsVideo();">starten</a></p>
+							<div class="divider"></div>
+							<h5 class="light">Echtzeitdemo:</h5>
+							<p>HTML5, WebGL uind Webcam... <a href="Cells/index.html">öffnen</a></p>
+						</div>
+						<div class="col s9">
+							<div id="cell-content-container">
+								<div id="cells-content" class="content-container hidden"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="me-image" class="parallax-container">
+			<div class="parallax">
+				<div class="bunker-background"></div>
+			</div>
+		</div>
+		
+		<div id="me-section" class="section blue-grey lighten-3">
+			<div class="container">
+				<div class="section">
+					<div class="row">
+						<div class="col s12">
+							<h3 class="thin">Zusatzarbeiten</h3>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s6">
+							<h5 class="light">Kamera Klasse</h5>
+							<p>Um Benutzereigaben abgreifen zu können musste eine Webcam angesprochen werden. Die entsprechende Klasse wurde von mir implementiert. Dort werden die aufgenommenen Bilder auf Bewegungen gescannt. Dafür werden immer die letzten Zwei Bilder miteinender verglichen und die sich veränderten Pixel extrahiert. Um debei den Rechenaufwand gering zu halten, werden die Pixel in Metapixel zusammengefasst. Die Größe der Metapixel wird vor Programmstart definiert und spiegelt die Genauigkeit, mit der Bewegungen erkannt werden wieder. Als letzen verarbeitungsschritt werden die Metapixel zu Inseln (Blobs) zusammengefasst, deren Mittelpunkt an das Program zurückgegeben wird.</p>
+						</div>
+
+						<div class="col s6">
+							<h5 class="light">Sound</h5>
+							<p>Die musikalische Untermalung beider Demos wurde von mir mit einem einfachen Musikprogramm erstellt. Bei den Linien ist die Musik ein elemantarer Teil der Demo. Hohe Ausschläge bestimmter Frequenzten wurden dazu verwendet, die Partikel aufläuchten zu lassen. Im Browser wird dazu die HTML5 Web Audio Api verwendet. </p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<footer class="blue-grey darken-4 grey-text text-darken-2">
+			<div class="container">
+				<div class="section">
+					<p class="center ">Erstellt als Abgabe für das Fach<br/> Elektronische Bild Barbeitung von <br/>Emil Wasilewski an der <br/>Universität Koblenz unter der Leitung von <br/>Dr. Markus Lohoff.</p>
+				</div>
+			</div>
+			<div class="footer-copyright blue-grey darken-3">
+				<div class="container">
+				<div class="left">
+					Made with <a href="http://www.materializecss.com" target="_blank">materialize css</a>
+				</div>
+				<div class="right">
+					Impressum
+				</div>
+				</div>
+			</div>
+		</footer>
+		
+		<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="js/materialize.min.js"></script>
+		<script type="text/javascript" src="js/page.js"></script>
+	</body>  
+</html>

@@ -1,0 +1,302 @@
+function LinesDemo(canvas){
+	this._canvas = canvas;
+
+	//scenes
+	this._lineScene = new t3.Scene();
+	this._particleScene = new t3.Scene();
+	this._fsqScene = new t3.Scene();
+
+	//camera
+	this._camera = camera;//new Camera(v3(0, 0, 1000));
+	this._fsqCamera = new t3.OrthographicCamera(WIDTH/-2, WIDTH/2, HEIGHT/2, HEIGHT/-2, 1, 1000);
+
+	//renderer
+	this._renderer = new t3.WebGLRenderer({antialias:true});
+	this._renderer.setSize(WIDTH, HEIGHT);
+	this._renderer.autoClear = false;
+	this._renderer.setPixelRatio( window.devicePixelRatio );
+	this._renderer.setClearColor( 0x000000 );
+	this._canvas.appendChild(this._renderer.domElement);
+
+	//simulation
+	this._t = 0.0;
+	this._dt = 20;
+	this._currentTime = new Date();
+	this._accumulator = 0.0;
+
+	//objects
+	this._lineNumber = 0;
+	this._lines = [];
+
+	this._particleNumber = 0;
+	this._particles = [];
+	this._particleMaterial = new t3.PointCloudMaterial( {size: 3, sizeAttenuation: false, color: new t3.Color(0xffffff), alphaTest: 0.5, transparent: true } );
+
+	this._effects = new EffectFactory();
+
+	//textures
+	this._particleTexture = makeRenderTexture();
+	this._horizBlurredPartikleTex = makeRenderTexture();
+	this._blurredParticleTexture = makeRenderTexture();
+	this._lineTexture = makeRenderTexture();
+	this._lineGlowTexture = makeRenderTexture();
+	this._lineComposeTex = makeRenderTexture();
+	this._compositeTexture = makeRenderTexture();
+
+	//composer - line
+	this._lineComposer = new t3.EffectComposer( this._renderer, this._lineGlowTexture );
+	this._lineComposer.addPass( new t3.RenderPass( this._lineScene, this._camera.getCamObject() ));
+
+	this._blurLineHori = new t3.ShaderPass( LineConvolution1D );
+	this._blurLineHori.uniforms['dir'].value = v2(2.0/WIDTH, 0.0);
+	this._blurLineHori.uniforms['size'].value = 1.8;
+
+	this._blurLineVert = new t3.ShaderPass( LineConvolution1D );
+	this._blurLineVert.uniforms['dir'].value = v2(0.0, 2.0/HEIGHT);
+	this._blurLineVert.uniforms['size'].value = 1.8;
+	// this._blurLineVert.renderToTarget = true;
+
+	this._lineBlend = new t3.ShaderPass( alphaBlendShader );
+	this._lineBlend.uniforms['tDiffuse2'].value = this._lineTexture;
+	this._lineBlend.renderToTarget = true;
+
+
+	this._lineComposer.addPass(this._blurLineHori);
+	this._lineComposer.addPass(this._blurLineVert);
+	this._lineComposer.addPass(this._lineBlend);
+
+	this._lineBlendComposer = new t3.EffectComposer( this._renderer, this._lineComposeTex);
+	this._lineColor = new t3.ShaderPass( ColorChange );
+	this._lineColor.uniforms['tDiffuse3'].value = this._lineGlowTexture;
+	this._lineColor.uniforms['color'].value = COLOR;
+	this._lineColor.renderToTarget = true;
+	
+	this._lineBlendComposer.addPass(this._lineColor);
+
+
+
+
+	//composer - particle
+	this._particleComposer = new t3.EffectComposer( this._renderer, this._compositeTexture );
+	this._particleComposer.addPass( new t3.RenderPass( this._particleScene, this._camera.getCamObject() ));
+
+	this._blurHori = new t3.ShaderPass( Convolution1D );
+	this._blurHori.uniforms['dir'].value = v2(2.0/WIDTH, 0.0);
+	this._blurHori.uniforms['size'].value = PARTICLE_SIZE;
+
+	this._blurVert = new t3.ShaderPass( Convolution1D );
+	this._blurVert.uniforms['dir'].value = v2(0.0, 2.0/HEIGHT);
+	this._blurVert.uniforms['size'].value = PARTICLE_SIZE;
+	// this._blurVert.renderToTarget = true;
+
+	this._particleBlend = new t3.ShaderPass( alphaBlendShader );
+	this._particleBlend.uniforms['tDiffuse2'].value = this._particleTexture;
+	// this._particleBlend.renderToTarget = true;
+
+	this._particleColor = new t3.ShaderPass( ColorChangeInv );
+	this._particleColor.uniforms['color'].value = COLOR;
+	// this._particleColor.renderToScreen = true;
+
+	this._particleComposer.addPass(this._blurHori);
+	this._particleComposer.addPass(this._blurVert);
+	this._particleComposer.addPass(this._particleBlend);
+	this._particleComposer.addPass(this._particleColor);
+
+	//composer - all
+	this._allBlend = new t3.ShaderPass( alphaBlendShader );
+	this._allBlend.uniforms['tDiffuse2'].value = this._lineComposeTex;
+	this._allBlend.renderToScreen = true;
+	this._particleComposer.addPass(this._allBlend);
+
+	//camera Effect
+	this._currentCamEffect = new CameraEffect(
+		[0, 500, ], 
+		[v3(400, 200, 1000), v3(-400, 200, 1000), v3(-400, -200, 1000)], 
+		this._camera,
+		"linear",
+		null);
+
+	this._testScene = new LineScene(0, 2000, 
+		new CameraEffect([0, 500, 1000, 2000], [v3(400, 200, 1000), v3(-400, 200, 1000), v3(-400, -200, 1000), v3(0, 0, 1000)], this._camera, "linear", null),
+		new LinePath([0, 500, 1000], LinePath.LINE, [v2(400, 200), v2(-400, 200), v2(-400, -200)], 20, false));
+
+	this._program = new Program(testChorio);
+
+	this.AudioInterface = null;
+
+	//stats
+	this._stats = new Stats();
+	this._stats.domElement.style.position = 'absolute';
+	this._stats.domElement.style.top = '0px';
+}
+
+
+LinesDemo.prototype = {
+	init:function(){
+		document.querySelector("body").appendChild( this._stats.domElement );
+
+		this.AudioInterface = new AudioInterface("JS/StruckturedLines.mp3", this.render.bind(this));
+	},
+
+	render:function(){
+		requestAnimationFrame( this.render.bind(this) );
+
+		//start rendering functions
+		this.preSimulationFunction();
+
+		var newTime = new Date();
+		var frameTime = newTime - this._currentTime;
+		if(frameTime > 1000/30)
+			frameTime = 1000/30;
+		this._currentTime = newTime;
+
+		this._accumulator += frameTime;
+		while(this._accumulator >= this._dt){
+			//animate
+			this.animate(this._t, this._dt);
+
+			this._t += this._dt;
+			this._accumulator -= this._dt;
+		}
+
+		var alpha = this._accumulator / this._dt;
+
+		//inegrate animation
+		this.interpolate(alpha);
+
+		//render
+		this.renderObjects();
+
+		//end_function
+		this.postRenderingFunction();
+
+		this._stats.update();
+
+		COLORUPDATED = false;
+	},
+	preSimulationFunction:function(){
+		// this._camera.dolly(-0.5);
+		// this._camera.track(0.5, 0.5);
+		// this._currentCamEffect.animate(this._t);
+		// this._testScene.animate(this._t);
+		this.AudioInterface.showStuff();
+
+		this._program.animate(this._t);
+	},
+	animate:function(t, dt){
+		var self = this;
+		this._lines.forEach(function(line){
+			line.animate(self._lines, dt);
+		});
+
+		this._particles.forEach(function(particle){
+			particle.animate(dt);
+		});
+	},
+	interpolate:function(alpha){
+		var self = this;
+		this._lines.forEach(function(line){
+			line.interpolate(alpha);
+		});
+
+		this._particles.forEach(function(particle){
+			particle.interpolate(alpha);
+		});
+	},
+	renderObjects:function(){
+		var self = this;
+		this._lines.forEach(function(line){
+			line.render();
+		});
+
+		this._particles.forEach(function(particle){
+			particle.render();
+		});
+	},
+	postRenderingFunction:function(){
+		// this._renderer.clear(0x000000);
+
+		this._renderer.render( this._lineScene, this._camera.getCamObject(), this._lineTexture, true );
+		this._renderer.render( this._particleScene, this._camera.getCamObject(), this._particleTexture, true );
+
+		if(PARTICLE_SIZE_UPDATED){
+			this._blurHori.uniforms['size'].value = PARTICLE_SIZE;
+			this._blurVert.uniforms['size'].value = PARTICLE_SIZE;
+		}
+		if(COLORUPDATED){
+			this._lineColor.uniforms['color'].value = COLOR;
+			this._particleColor.uniforms['color'].value = COLOR;
+		}
+
+		this._lineComposer.render();
+		this._lineBlendComposer.render();
+		this._particleComposer.render();
+
+
+		// this._renderer.render( this._fsqScene, this._fsqCamera );
+
+		PARTICLE_SIZE_UPDATED = false;
+		COLORUPDATED = false;
+	},
+
+	/* objects */
+	addLineArray:function(linePositions, lineDirectionStrings, lineSpeed){
+		var self = this;
+		var line = new Line(self._lineNumber++, linePositions, lineDirectionStrings, lineSpeed);
+		self._lines.push(line);
+		line.addToScene(self._lineScene);
+	},
+	addParticleArray:function(particlePositions, particleDirections){
+		var newParticles = new t3.Geometry();
+		var tempArray = [];
+		for(var i = 0; i < particlePositions.length; i++){
+			var particle = new Particle(this._particleNumber++, particlePositions[i], particleDirections[i], t3.Math.randInt(2000, 6000));
+			this._particles.push(particle);
+			newParticles.vertices.push(particle.getRenderVec());
+			tempArray.push(particle);
+		}
+		var mesh = new t3.PointCloud(newParticles, this._particleMaterial);
+		for (var i = 0; i < tempArray.length; i++){
+			tempArray[i].setMesh(mesh);
+		}
+
+		this._particleScene.add(mesh);
+	},
+	clearScenes:function(){
+		for (var i = this._lineScene.children.length-1; i >= 0; i--){
+			this._lineScene.remove(this._lineScene.children[i]);
+		}
+
+		for (var i = this._particleScene.children.length-1; i >= 0; i--){
+			this._particleScene.remove(this._particleScene.children[i]);
+		}
+
+		this._lines = [];
+		this._particles = [];
+	}
+
+}
+
+var lineDemo = new LinesDemo(document.querySelector('#drawing'));
+
+lineDemo.init();
+
+document.onkeydown = function(evt){
+	if(evt.keyIdentifier === "Right"){
+		PARTICLE_SIZE += 0.05;
+		PARTICLE_SIZE_UPDATED = true;
+	}
+	if(evt.keyIdentifier === "Left"){
+		PARTICLE_SIZE -= 0.05;
+		PARTICLE_SIZE_UPDATED = true;
+	}
+	console.log(evt.keyIdentifier);
+}
+
+document.querySelector("#color-slider").onchange = function(evt){
+	var value = parseInt(evt.currentTarget.value);
+	// MAX_CELL_SIZE = value;
+	rgb = HSVToRGB(value, 1.0, 0.65);
+	COLOR = v4(rgb.x, rgb.y, rgb.z, 1.0);
+	COLORUPDATED = true;
+}

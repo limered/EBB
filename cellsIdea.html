@@ -1,0 +1,84 @@
+﻿<div class="row">
+	<div class="col s12">
+		<ul class="tabs brown lighten-3 z-depth-1">
+			<li class="tab col s3"><a class="active grey-text text-darken-3" href="#motivation">Motivation</a></li>
+			<li class="tab col s3"><a class="grey-text text-darken-3" href="#skizzen">Erste Skizzen</a></li>
+			<li class="tab col s3"><a class="grey-text text-darken-3" href="#konkret">Konkretisierung</a></li>
+			<li class="tab col s3"><a class="grey-text text-darken-3" href="#stil">Stilfindung</a></li>
+		</ul>
+	</div>
+	<div id="motivation" class="col s12">
+		<p class="col s12">Neben der starren Darstellung von Linien der "Structured Lines" Demo wollte ich mich auch an etwas organischem versuchen. Die Linien teilen den Raum in einzelne Zellen ein. Eine andere Art dies zu tun ist das Voronoi Diagram.</p>
+		<p class="col s6">In einem Voronoi Diagramm werden Flächen durch die maximale Enfernung von einzelnen Punkten in der 2D Ebene begrenzt. Werden die Grenzen hervorgehoben gleicht ein Voronoi Diagram einer Zellenstruktur. Wenn einer der Punkte dieses Diagrams bewegt wird einsteht durcht die laufende Neuberechnung des Daigrams der Eindruck, die Zelle würde sich zwischen den anderen hindurchbewegen ohne dabei den Kontakt zu verlieren.</p>
+		<img src="assets/cells/vironoi_01.png" class="col s3 materialboxed">
+		<img src="assets/cells/zellen_02.jpeg" class="col s3 materialboxed">
+		
+		<img src="assets/ir.jpg" class="col s4 materialboxed">
+		<p class="col s8">In gewisser Weise gleich die immer weitere Teilung von Zellen der langsamen enstehung eines Ornaments. Es bilden sich ästetische Formen, die einen begrenzten Raum einnehmen und sich bis ins Undendliche widerholen. Auch wenn ein sich so generierendes Bild auf den Betrachter beruhigend wirkt, kann es ihn nach einer gewissen Zeit langweilen. Die Monotonie sollte durch dynamische Störungen unterbrochen werden. Dazu eignet sich eine Benutzerinteraktion über Bewegung vor der Kamera, wie sie schon von vielen Medienherstellern verwendet wurde, wie z.b. beim <a target="_blank" href="http://de.wikipedia.org/wiki/EyeToy">EyeToy</a> von Sony.</p>
+	</div>
+	<div id="skizzen" class="col s12">
+		<div class="row">
+			<p class="col s6">Die ersten Skizzen dreten sich um die allgemeine Form der Zellendarstellung ohne dabei an die Voronoi Bereiche zu denken. Einige dieser Entwürfe sing später für die Darstellung von schwimmenden Vordergrungobjekten in der Demo verwendet worden.</p>
+			<p>
+				<img src="assets/viren_zellen.jpg" class="col s2 materialboxed">
+				<img src="assets/virusobjekte.jpg" class="col s2 materialboxed">
+				<img src="assets/zellenojekte.jpg" class="col s2 materialboxed">
+			</p>
+		</div>
+		<div class="row">
+			<img class="col s4 materialboxed" src="assets/zellen_02.jpg">
+			<p class="col s8">Ursprünglich war es angedacht neben den Zellen auch Viren oder Ähnliches zu implementieren um Spannungen zu erzäugen, jedoch habe ich die Idee verworfen der nicht-erzählerischen Eingenschafte des Ornaments zu genügen.<br/> <br/> Die Aufteilung des Raumes ist der Skizzen zu der Linien Demo ähnlich, bis auf die Tatsache, dass die Verbindungspunkte mit Rundungen versehen wurden um Plastizität zu erzäugen. </p>
+		</div>
+	</div>
+	<div id="konkret" class="col s12">
+		<div class="row">
+			<p class="col s12">
+				An diesem Punkt der Enstehung  der Demo wollte ich, wie zuvor bei den Linien, einen Rahmen für den Funktionsumfang ebstecken. Klar war, dass das Kamerabild abgegriffen werden musste und die Auswirkungen auf die sich im Bild befindlichen Zellen implementiert werden mussten. Weiter sollten Störungeffekte definiert werden, die sowohl automatisch, als auch manuell (durch Kamerasteuerung) den "Zellenhaufen" beeinflussen sollten. Auch hier erstellte ich eine Liste mit dem Benötigten Komponennten:
+			</p>
+			<ul class="collection z-depth-1">
+				<li class="collection-item brown lighten-5">Zellen haben ein Eigenleben, das Entstehung, Teilung und Tot beinhaltet und von Zufallswerten gesteuert wird.</li>
+				<li class="collection-item brown lighten-5">Die Zellen führen leichte Bewegungen aus, um den Eindruck von Leben zu vermitteln.</li>
+				<li class="collection-item brown lighten-5">Sie stoßen sich gegenzeitig ab, wenn sich sich zu nahe kommen.</li>
+				<li class="collection-item brown lighten-5">Die Effekte sind unsichtbare Zellen, die auf verschiede Arten mit sichtbaren Zellen interagieren.</li>
+				<li class="collection-item brown lighten-5">Die Interaktionen beinhalten: Abstoßung, Anziehung, Größenänderungen, Farbänderungen und Rotationseffekte.</li>
+				<li class="collection-item brown lighten-5">Im Laufe der Demo fügt ein Zufallsgenerator verschiedene Effektzellen der Simulation an zufälligen Zeiten hinzu.</li>
+				<li class="collection-item brown lighten-5">Die Anordnung der Zufallseffekte sind: Einzelzellen, Wellen/Linien oder Gruppen.</li>
+				<li class="collection-item brown lighten-5">Die Interaktion mit der Kamera lässt Effektzellen an orten mit Bewegungen entstehen.</li>
+				<li class="collection-item brown lighten-5">Die Art der Interaktion ändert sich im zufälligen Zeitintervall.</li>
+			</ul>
+			<p class="col s12">
+				Die Demo besitzt keine eindeutige Choriographie. Die gesamten Effekte werden durch Zufall geleitet. Dadurch kann es natürlich passieren, dass manche Effekte bei einem Durchgang gar nicht vorkommen und andere viel öffter, was ich jedoch nicht als Nachteil betrachte. SO lässt sich auch mehreren Durchgängen immer noch etwas neues entdecken.
+			</p>
+		</div>
+	</div>
+	<div id="stil" class="col s12">
+		<div class="row">
+			<p class="col s12">
+				Im letzten Schritt ging es darum einen passenden "Look" für die Demo zu kreieren. Ich etschied mich für ein Aussehen, als ob man durch ein Lichtmikroskop schauen würde. Dazu teilte ich die Scene in drei Ebenen: </p>
+			<div class="row">
+				<p class="col s10">
+					Die unterste Ebene beinhaltet den Hintergrund. Es sollte aussehen als ob die Zellen in einer Art flüssigkeit umherschwimmen, d.h. der Hintergrung musste sich hin und her bewegen. Außerdem ist die Ausläuchtung der Hintergrundfläche nicht homogen, was eine Wolkenbildung herbeiführen konnte.
+				</p>
+				<img class="col s2 materialboxed" src="assets/cells/perlin.jpg">
+			</div>
+			<div class="row">
+				<p class="col s10">
+					Die Mittliere Ebene bestehl nur aus den Zellen. Dabei handelt es sich um kugelförmige Objekte, die durch die Grafikkarte von Ihnen (aktuell vom Farbrad eingestellte Farbe) nach Außen (durchsichtig) geshaded werden. 
+				</p>
+				<img class="col s2 materialboxed" src="assets/cells/zelle.jpg">
+			</div>
+			<div class="row">
+				<p class="col s10">
+					Der Vordergrund, oberste Ebene, beinhaltet sehr stark verschwommene umherschwimmende Objekte, die <a href="http://de.wikipedia.org/wiki/Mouches_volantes">Floatern/Mouches volantes</a> ähnlich sehen. Sie sollen Tiefe ins Bild bringen und die scene lebendiger erscheinen lassen. Die Formen dieser Partikel sind der ersten Skizzen entnommen und stark mweich gezeichnet.
+				</p>
+				<img class="col s2 materialboxed" src="assets/cells/Floaters.png">
+			</div>
+			<div class="row">
+				<p class="col s10">
+					Um den Look abzurunden wird das Bild zusätzlich mit einer kreisförmigen Vignette eingefasst, die das runde Mikroskopenrohr darstellen soll. Die Fertige Demo kann als Video von der Vorführung oder als Echtzeitdemo im Browser betrachtet werden.
+				</p>
+				<img class="col s2 materialboxed" src="assets/cells/mikroskop.jpg">
+			</div>
+		</div>
+	</div>
+</div>
