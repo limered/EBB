@@ -1,0 +1,14 @@
+{
+  "name": "EBBAbgabe",
+  "version": "1.0.0",
+  "description": "Abgabe EBB",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron main.js"
+  },
+  "author": "Emil Wasilewski",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron-prebuilt": "^0.35.0"
+  }
+}
